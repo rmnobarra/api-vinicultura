@@ -1,8 +1,8 @@
 import requests
 from bs4 import BeautifulSoup
 
-def scrape_producao():
-    url = "http://vitibrasil.cnpuv.embrapa.br/index.php?opcao=opt_02"
+def scrape_producao(ano: int = 2023):
+    url = f"http://vitibrasil.cnpuv.embrapa.br/index.php?ano={ano}&opcao=opt_02"
     response = requests.get(url)
     soup = BeautifulSoup(response.content, "html.parser")
     
@@ -26,8 +26,8 @@ def scrape_producao():
     return dados
 
 
-def scrape_processamento():
-    url = "http://vitibrasil.cnpuv.embrapa.br/index.php?opcao=opt_03"
+def scrape_processamento(ano: int = 2023):
+    url = f"http://vitibrasil.cnpuv.embrapa.br/index.php?ano={ano}&opcao=opt_03"
     response = requests.get(url)
     soup = BeautifulSoup(response.content, "html.parser")
 
@@ -51,11 +51,11 @@ def scrape_processamento():
 
     return dados
 
-def scrape_comercializacao():
+def scrape_comercializacao(ano: int = 2023):
     import requests
     from bs4 import BeautifulSoup
 
-    url = "http://vitibrasil.cnpuv.embrapa.br/index.php?opcao=opt_04"
+    url = f"http://vitibrasil.cnpuv.embrapa.br/index.php?ano={ano}&opcao=opt_04"
     response = requests.get(url)
     soup = BeautifulSoup(response.content, "html.parser")
 
@@ -80,11 +80,11 @@ def scrape_comercializacao():
     return dados
 
 
-def scrape_importacao():
+def scrape_importacao(ano: int = 2023):
     import requests
     from bs4 import BeautifulSoup
 
-    url = "http://vitibrasil.cnpuv.embrapa.br/index.php?opcao=opt_05"
+    url = f"http://vitibrasil.cnpuv.embrapa.br/index.php?ano={ano}&opcao=opt_05"
     response = requests.get(url)
     soup = BeautifulSoup(response.content, "html.parser")
 
@@ -115,11 +115,11 @@ def scrape_importacao():
     return dados
 
 
-def scrape_exportacao():
+def scrape_exportacao(ano: int = 2023):
     import requests
     from bs4 import BeautifulSoup
 
-    url = "http://vitibrasil.cnpuv.embrapa.br/index.php?opcao=opt_06"
+    url = f"http://vitibrasil.cnpuv.embrapa.br/index.php?ano={ano}&opcao=opt_06"
     response = requests.get(url)
     soup = BeautifulSoup(response.content, "html.parser")
 
