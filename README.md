@@ -1,107 +1,160 @@
-# Histórias
+# API Vitivinicultura
 
-História de Usuário 1: Como usuário da API, quero consultar os dados públicos da Embrapa para diferentes categorias de vitivinicultura, para poder consumir essas informações em aplicações externas.
+API para consulta de dados da vitivinicultura brasileira, com foco no Rio Grande do Sul, utilizando **scraping** dinâmico da plataforma da Embrapa.
 
-Tarefas:
- 
- Criar projeto base com FastAPI.
+## Tecnologias
 
- Definir estrutura de pastas conforme boas práticas (e.g., app/, routes/, services/, models/).
+- [FastAPI](https://fastapi.tiangolo.com/)
+- [Pydantic](https://docs.pydantic.dev/)
+- [BeautifulSoup](https://www.crummy.com/software/BeautifulSoup/)
+- [Uvicorn](https://www.uvicorn.org/)
 
- Criar rota /producao que retorne os dados de produção.
+## Instalação
 
- Criar rota /processamento que retorne os dados de processamento.
+```bash
+git clone https://github.com/seu-usuario/api-vitivinicultura.git
+cd api-vitivinicultura
+python -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+uvicorn app.main:app --reload
+```
 
- Criar rota /comercializacao que retorne os dados de comercialização.
+## Documentação automática
 
- Criar rota /importacao que retorne os dados de importação.
+Acesse a documentação gerada automaticamente:
 
- Criar rota /exportacao que retorne os dados de exportação.
+- Swagger UI: [`http://localhost:8000/docs`](http://localhost:8000/docs)
+- Redoc: [`http://localhost:8000/redoc`](http://localhost:8000/redoc)
 
- Criar modelos de dados com Pydantic para cada rota.
+---
 
- Implementar lógica de scraping com requests e BeautifulSoup para cada aba.
+## Endpoints da API
 
-História de Usuário 2: Como consumidor da API, quero que ela esteja bem documentada, para que eu saiba como utilizá-la facilmente.
+### `/producao?ano={ano}`
 
-Tarefas:
+> Retorna os dados de produção de uvas no RS para o ano desejado.
 
- Definir response_model em todos os endpoints.
+Exemplo de resposta:
 
- Adicionar docstrings e exemplos para cada modelo com Field(...) do Pydantic.
+```json
+{
+  "ano": 2023,
+  "dados": [
+    {"produto": "Uva Isabel", "quantidade": "123456"}
+  ]
+}
+```
 
- Validar automaticamente os tipos de dados retornados.
+Exemplo de chamada:
 
- Verificar e validar a geração automática da documentação Swagger (/docs).
+```bash
+curl -X GET "http://localhost:8000/producao?ano=2023"
+```
 
- Criar README com exemplos de uso e chamadas à API.
+---
 
-História de Usuário 3: Como responsável pelos dados, quero garantir que apenas usuários autorizados possam acessar certas rotas da API, para evitar uso indevido.
+### `/processamento?ano={ano}`
 
-Tarefas:
+> Retorna os dados de processamento de uvas no RS.
 
- Implementar autenticação via JWT usando OAuth2PasswordBearer.
+Exemplo de resposta:
 
- Criar rota /login com credenciais de exemplo (sem persistência).
+```json
+{
+  "ano": 2023,
+  "dados": [
+    {"cultivar": "BRS Carmem", "quantidade": "98765"}
+  ]
+}
+```
 
- Proteger rotas com Depends(verify_token).
+Exemplo de chamada:
 
- Adicionar documentação sobre como obter e usar o token JWT.
+```bash
+curl -X GET "http://localhost:8000/processamento?ano=2023"
+```
 
- Definir variáveis de ambiente para a SECRET_KEY.
+---
 
-História de Usuário 4: Como DevOps, quero disponibilizar a API em produção, para que o cliente possa testá-la e integrá-la com outros sistemas.
+### `/comercializacao?ano={ano}`
 
-Tarefas:
+> Retorna os dados de comercialização de vinhos e derivados.
 
- Escrever um arquivo requirements.txt com todas as dependências.
+Exemplo de resposta:
 
- Criar main.py com o objeto FastAPI e inclusão das rotas via include_router.
+```json
+{
+  "ano": 2023,
+  "dados": [
+    {"produto": "Vinho de Mesa Tinto", "quantidade": "187016848"}
+  ]
+}
+```
 
- Criar Procfile (Heroku) ou start.sh (Render).
+Exemplo de chamada:
 
- Publicar a API em uma plataforma gratuita (ex: Render, Railway ou Heroku).
+```bash
+curl -X GET "http://localhost:8000/comercializacao?ano=2023"
+```
 
- Testar o acesso externo via navegador e ferramentas como Postman.
+---
 
- Compartilhar o link da API funcionando.
+### `/importacao?ano={ano}`
 
-História de Usuário 5: Como arquiteto do sistema, quero ter um plano claro de arquitetura do projeto, para facilitar futuras integrações com bancos de dados e modelos de Machine Learning.
+> Dados de importações por país.
 
-Tarefas:
+Exemplo de resposta:
 
- Criar diagrama de arquitetura com:
+```json
+{
+  "ano": 2024,
+  "dados": [
+    {"pais": "Chile", "quantidade_kg": "73111416", "valor_usd": "199874777"}
+  ]
+}
+```
 
-Site da Embrapa → Scraper → API FastAPI → (futuramente) Banco de dados → ML Model.
+Exemplo de chamada:
 
- Documentar fluxo de ingestão de dados e possíveis melhorias.
+```bash
+curl -X GET "http://localhost:8000/importacao?ano=2024"
+```
 
- Sugerir tecnologias futuras para armazenamento (ex: PostgreSQL, MongoDB).
+---
 
- Incluir diagrama no repositório (como imagem ou PDF).
+### `/exportacao?ano={ano}`
 
- Descrever um possível cenário de uso da API para modelos de ML no README.md.
+> Dados de exportações por país.
 
-História de Usuário 6: Como desenvolvedor colaborador, quero ter um repositório claro e bem documentado, para contribuir ou usar o projeto com facilidade.
+Exemplo de resposta:
 
-Tarefas:
+```json
+{
+  "ano": 2024,
+  "dados": [
+    {"pais": "Paraguai", "quantidade_kg": "3705268", "valor_usd": "5121857"}
+  ]
+}
+```
 
- Criar repositório no GitHub com nome claro e descritivo.
+Exemplo de chamada:
 
- Adicionar um README.md com:
+```bash
+curl -X GET "http://localhost:8000/exportacao?ano=2024"
+```
 
-Visão geral do projeto.
+---
 
-Instruções de instalação local.
+## Observações
 
-Como rodar a aplicação localmente.
+- Os dados vão de **1970 até 2023** (ou 2024, conforme aba da Embrapa).
+- A API realiza scraping em tempo real — pode haver variação de latência.
+- Para evitar sobrecarga, não abuse de chamadas em loop.
 
-Como fazer chamadas aos endpoints.
+---
 
-Link para a API publicada.
+## Contato
 
- Criar um .gitignore adequado (por exemplo, com .env, __pycache__, etc.).
+Desenvolvido por @rmnobarra.
 
- Adicionar LICENSE apropriada (MIT, Apache 2.0, etc.).
-
- Criar pelo menos um exemplo de teste unitário com pytest.
